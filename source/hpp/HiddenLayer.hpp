@@ -4,7 +4,7 @@
 class HiddenLayer :public Layer
 {
 public:
-	HiddenLayer(const size_t&);
+	HiddenLayer(const size_t&, ACTIVATION_TYPE = ACTIVATION_TYPE::RELU_ACTIVATION);
 	~HiddenLayer();
 
 private:

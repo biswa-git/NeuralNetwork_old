@@ -7,7 +7,7 @@ public:
 	Layer();
 	~Layer();
 
-	static std::map<std::string, int> layer_type_map;
+	static std::map<std::string, LAYER_TYPE> layer_type_map;
 
 	void SetSize(const size_t&);
 	size_t GetSize();
@@ -20,7 +20,7 @@ public:
 	Eigen::VectorXd& GetData();
 	Eigen::MatrixXd& GetWeight();
 	Eigen::VectorXd& GetBias();
-
+	void ApplyActivation();
 protected:
 	std::string type;
 	size_t data_size;
@@ -29,5 +29,7 @@ protected:
 	Eigen::VectorXd bias;
 	Layer* prev;
 	Layer* next;
+
+	ACTIVATION_TYPE activation_type;
 
 };

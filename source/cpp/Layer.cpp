@@ -1,4 +1,5 @@
 #include<Layer.hpp>
+#include<Activation.hpp>
 
 Layer::Layer()
 {
@@ -12,11 +13,11 @@ Layer::~Layer()
 }
 
 
-std::map<std::string, int> Layer::layer_type_map =
+std::map<std::string, LAYER_TYPE> Layer::layer_type_map =
 {
-	{"input layer", INPUT_LAYER},
-	{"hidden layer", HIDDEN_LAYER},
-	{"output layer", OUTPUT_LAYER}
+	{"input layer", LAYER_TYPE::INPUT_LAYER},
+	{"hidden layer", LAYER_TYPE::HIDDEN_LAYER},
+	{"output layer", LAYER_TYPE::OUTPUT_LAYER}
 };
 
 void Layer::SetSize(const size_t& size)
@@ -42,8 +43,6 @@ void Layer::SetPreviousLayer(Layer* previous_layer)
 void Layer::SetWeightDimension(const size_t& m, const size_t& n)
 {
 	weight = Eigen::MatrixXd::Random(m, n);
-	//setting random weights between -1 to +1
-	weight = (weight * 2) - Eigen::MatrixXd::Ones(m,n);
 }
 
 Eigen::VectorXd& Layer::GetData()
@@ -62,5 +61,25 @@ Eigen::VectorXd& Layer::GetBias()
 {
 	// // O: insert return statement here
 	return bias;
+}
+
+void Layer::ApplyActivation()
+{
+	Activation activation;
+	switch (activation_type)
+	{
+	case ACTIVATION_TYPE::LINEAR_ACTIVATION:
+		activation.Linear(data);
+		break;
+	case ACTIVATION_TYPE::RELU_ACTIVATION:
+		activation.ReLU(data);
+		break;
+	case ACTIVATION_TYPE::GELU_ACTIVATION:
+		activation.GeLU(data);
+		break;
+	case ACTIVATION_TYPE::SIGMOID_ACTIVATION:
+		activation.Sigmoid(data);
+		break;
+	}
 }
 
